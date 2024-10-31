@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Selecionar Tabela</title>
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo</h1>
+        <button onclick="window.location.href='index.html'">Voltar para a Página Inicial</button>
+    </header>
+
+    <div class="container">
+        <div class="table-selection-container">
+            <div class="select-box">
+                <h2>Selecione uma Tabela</h2>
+                <label for="table-select">Escolha uma Tabela:</label>
+                <select id="table-select" class="table-select" onchange="fetchData()">
+                    <option value="">Escolha uma tabela</option>
+                    <option value="alocacaoRecursos">Alocação Recursos</option>
+                    <option value="atribuicaoBase">Atribuição Base</option>
+                    <option value="bases">Bases</option>
+                    <option value="envolvimentoEvento">Envolvimento Evento</option>
+                    <option value="envolvimentoVilao">Envolvimento Vilão</option>
+                    <option value="eventosHistorico">Evento Histórico</option>
+                    <option value="heroi">Herói</option>
+                    <option value="missoes">Missões</option>
+                    <option value="participacaoEventos">Participação Eventos</option>
+                    <option value="participacaoHerois">Participação Heróis</option>
+                    <option value="recursos">Recursos</option>
+                    <option value="utilizacaoRecursos">Utilização Recursos</option>
+                    <option value="viloes">Vilões</option>
+                    <option value="usuarios">Usuários</option>
+                </select>
+            </div>
+        
+            <!-- Tabela dinâmica de dados -->
+            <div id="data-table-container"></div>
+        </div>
+
+    <footer>
+        <p>&copy; 2024 Vingadores. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
