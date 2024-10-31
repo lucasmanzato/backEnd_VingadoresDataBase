@@ -13,7 +13,7 @@ public class Missoes implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID missoesId;
+    private int missoesId;
     private String nomeMissoes;
     private String descricaoMissoes;
     private Date dataInicioMissoes;
@@ -22,11 +22,11 @@ public class Missoes implements Serializable {
     private String heroisEnvolvidoMissoes;
     private String resultadoMissoes;
 
-    public UUID getMissoesId() {
+    public int getMissoesId() {
         return missoesId;
     }
 
-    public void setMissoesId(UUID missoesId) {
+    public void setMissoesId(int missoesId) {
         this.missoesId = missoesId;
     }
 

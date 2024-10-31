@@ -53,7 +53,7 @@ public class AtribuicaoBaseController {
 
     // Endpoint para buscar uma atribuição por ID
     @GetMapping("/{id}")
-    public ResponseEntity<AtribuicaoBase> getAtribuicaoById(@PathVariable UUID id) {
+    public ResponseEntity<AtribuicaoBase> getAtribuicaoById(@PathVariable int id) {
         AtribuicaoBase atribuicao = atribuicaoBaseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Atribuição não encontrada com ID: " + id));
         return new ResponseEntity<>(atribuicao, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class AtribuicaoBaseController {
 
     // Endpoint para atualizar uma atribuição
     @PutMapping("/{id}")
-    public ResponseEntity<AtribuicaoBase> updateAtribuicao(@PathVariable UUID id, @RequestBody AtribuicaoBaseRecordDto atribuicaoDto) {
+    public ResponseEntity<AtribuicaoBase> updateAtribuicao(@PathVariable int id, @RequestBody AtribuicaoBaseRecordDto atribuicaoDto) {
         AtribuicaoBase atribuicao = atribuicaoBaseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Atribuição não encontrada com ID: " + id));
 
@@ -79,7 +79,7 @@ public class AtribuicaoBaseController {
 
     // Endpoint para deletar uma atribuição
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAtribuicao(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteAtribuicao(@PathVariable int id) {
         AtribuicaoBase atribuicao = atribuicaoBaseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Atribuição não encontrada com ID: " + id));
 

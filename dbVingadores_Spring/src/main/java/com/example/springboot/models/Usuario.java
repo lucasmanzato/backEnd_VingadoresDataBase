@@ -9,7 +9,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue
-    private UUID id;
+    private int id;
 
     @Column(unique = true)
     private String username;
@@ -18,11 +18,11 @@ public class Usuario {
     private String role;
 
     // Getters e Setters
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

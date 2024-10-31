@@ -3,31 +3,31 @@ package com.example.springboot.dtos;
 import java.util.UUID;
 
 public class ParticipacaoEventosDto {
-    private UUID heroiId;
-    private UUID vilaoId;
-    private UUID eventoId;
+    private int heroiId;
+    private int vilaoId;
+    private int eventoId;
 
-    public UUID getHeroiId() {
+    public int getHeroiId() {
         return heroiId;
     }
 
-    public void setHeroiId(UUID heroiId) {
+    public void setHeroiId(int heroiId) {
         this.heroiId = heroiId;
     }
 
-    public UUID getVilaoId() {
+    public int getVilaoId() {
         return vilaoId;
     }
 
-    public void setVilaoId(UUID vilaoId) {
+    public void setVilaoId(int vilaoId) {
         this.vilaoId = vilaoId;
     }
 
-    public UUID getEventoId() {
+    public int getEventoId() {
         return eventoId;
     }
 
-    public void setEventoId(UUID eventoId) {
+    public void setEventoId(int eventoId) {
         this.eventoId = eventoId;
     }
 }

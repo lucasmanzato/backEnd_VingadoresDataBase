@@ -22,7 +22,6 @@ public class ViloesController {
     @PostMapping
     public ResponseEntity<Viloes> createVilao(@RequestBody ViloesRecordDto viloesDto) {
         Viloes vilao = new Viloes();
-        vilao.setViloesId(UUID.randomUUID());
         vilao.setNomeViloes(viloesDto.nomeViloes());
         vilao.setTitulosViloes(viloesDto.titulosViloes());
         vilao.setPoderesViloes(viloesDto.poderesViloes());
@@ -43,7 +42,7 @@ public class ViloesController {
 
     // Endpoint para buscar um vilão por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Viloes> getVilaoById(@PathVariable UUID id) {
+    public ResponseEntity<Viloes> getVilaoById(@PathVariable int id) {
         Viloes vilao = viloesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vilão não encontrado com id: " + id));
         return new ResponseEntity<>(vilao, HttpStatus.OK);
@@ -51,7 +50,7 @@ public class ViloesController {
 
     // Endpoint para atualizar um vilão
     @PutMapping("/{id}")
-    public ResponseEntity<Viloes> updateVilao(@PathVariable UUID id, @RequestBody ViloesRecordDto viloesDto) {
+    public ResponseEntity<Viloes> updateVilao(@PathVariable int id, @RequestBody ViloesRecordDto viloesDto) {
         Viloes vilao = viloesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vilão não encontrado com id: " + id));
 
@@ -68,7 +67,7 @@ public class ViloesController {
 
     // Endpoint para deletar um vilão
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVilao(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteVilao(@PathVariable int id) {
         Viloes vilao = viloesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vilão não encontrado com id: " + id));
 

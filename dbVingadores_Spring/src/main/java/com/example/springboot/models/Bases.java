@@ -12,7 +12,7 @@ public class Bases implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID baseId;
+    private int baseId;
     private String nomeBase;
     private String localizacaoBase;
     private String propositoBase;
@@ -20,11 +20,11 @@ public class Bases implements Serializable {
     private String statusBase;
     private String comandanteBase;
 
-    public UUID getBaseId() {
+    public int getBaseId() {
         return baseId;
     }
 
-    public void setBaseId(UUID baseId) {
+    public void setBaseId(int baseId) {
         this.baseId = baseId;
     }
 

@@ -12,18 +12,18 @@ public class Recursos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID recursoId;
+    private int recursoId;
     private String tipoRecurso;
     private String nomeRecurso;
     private String disponibilidadeRecurso;
     private String usuarioRecurso;
     private String localizacaoRecurso;
 
-    public UUID getRecursoId() {
+    public int getRecursoId() {
         return recursoId;
     }
 
-    public void setRecursoId(UUID recursoId) {
+    public void setRecursoId(int recursoId) {
         this.recursoId = recursoId;
     }
 

@@ -13,7 +13,7 @@ public class EventosHistoricos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID eventosId;
+    private int eventosId;
     private String nomeEventos;
     private Date dataEventos;
     private String localEventos;
@@ -21,11 +21,11 @@ public class EventosHistoricos implements Serializable {
     private String participantesEventos;
     private String impactoEventos;
 
-    public UUID getEventosId() {
+    public int getEventosId() {
         return eventosId;
     }
 
-    public void setEventosId(UUID eventosId) {
+    public void setEventosId(int eventosId) {
         this.eventosId = eventosId;
     }
 

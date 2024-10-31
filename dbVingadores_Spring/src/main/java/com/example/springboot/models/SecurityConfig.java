@@ -64,6 +64,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/entrar", "/entrar/**").permitAll()
+                        .requestMatchers("/herois", "/herois/**").permitAll()
+                        .requestMatchers("/api/alocacao-recursos", "/api/alocacao-recursos/**").permitAll()
+                        .requestMatchers("/atribuicoes", "/atribuicoes/**").permitAll()
+                        .requestMatchers("/api/envolvimento-evento", "/api/envolvimento-evento/**").permitAll()
+                        .requestMatchers("/api/envolvimento-vilao", "/api/envolvimento-vilao/**").permitAll()
+                        .requestMatchers("/eventosHistoricos", "/eventosHistoricos/**").permitAll()
+                        .requestMatchers("/missoes", "/missoes/**").permitAll()
+                        .requestMatchers("/api/participacao-evento", "/api/participacao-evento/**").permitAll()
+                        .requestMatchers("/api/participacao-herois", "/api/participacao-herois/**").permitAll()
+                        .requestMatchers("/recursos", "/recursos/**").permitAll()
+                        .requestMatchers("/api/utilizacao-recursos", "/api/utilizacao-recursos/**").permitAll()
+                        .requestMatchers("/viloes", "/viloes/**").permitAll()
+
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user/**").hasRole("USER")
                         .anyRequest().authenticated()

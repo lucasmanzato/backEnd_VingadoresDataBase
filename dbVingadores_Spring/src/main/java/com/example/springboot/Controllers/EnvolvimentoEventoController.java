@@ -51,7 +51,7 @@ public class EnvolvimentoEventoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarEnvolvimento(@PathVariable UUID id) {
+    public ResponseEntity<Object> deletarEnvolvimento(@PathVariable int id) {
         Optional<EnvolvimentoEvento> envolvimentoOpt = envolvimentoEventoRepository.findById(id);
 
         if (envolvimentoOpt.isEmpty()) {

@@ -60,7 +60,7 @@ public class ParticipacaoEventosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarParticipacao(@PathVariable UUID id) {
+    public ResponseEntity<Object> deletarParticipacao(@PathVariable int id) {
         Optional<ParticipacaoEventos> participacaoOpt = participacaoEventosRepository.findById(id);
 
         if (participacaoOpt.isEmpty()) {

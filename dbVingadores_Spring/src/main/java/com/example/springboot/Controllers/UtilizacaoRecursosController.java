@@ -51,7 +51,7 @@ public class UtilizacaoRecursosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarUtilizacao(@PathVariable UUID id) {
+    public ResponseEntity<Object> deletarUtilizacao(@PathVariable int id) {
         Optional<UtilizacaoRecursos> utilizacaoOpt = utilizacaoRecursosRepository.findById(id);
 
         if (utilizacaoOpt.isEmpty()) {

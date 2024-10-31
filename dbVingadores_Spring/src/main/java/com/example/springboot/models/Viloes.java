@@ -12,7 +12,7 @@ public class Viloes implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID viloesId;
+    private int viloesId;
     private String nomeViloes;
     private String titulosViloes;
     private String poderesViloes;
@@ -20,11 +20,11 @@ public class Viloes implements Serializable {
     private String statusViloes;
     private String localizacaoViloes;
 
-    public UUID getViloesId() {
+    public int getViloesId() {
         return viloesId;
     }
 
-    public void setViloesId(UUID viloesId) {
+    public void setViloesId(int viloesId) {
         this.viloesId = viloesId;
     }
 

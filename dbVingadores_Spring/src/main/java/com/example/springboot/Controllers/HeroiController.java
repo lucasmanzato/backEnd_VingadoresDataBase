@@ -22,7 +22,6 @@ public class HeroiController {
     @PostMapping
     public ResponseEntity<Heroi> createHeroi(@RequestBody HeroiRecordDto heroiDto) {
         Heroi heroi = new Heroi();
-        heroi.setId(UUID.randomUUID());
         heroi.setNome(heroiDto.nome());
         heroi.setPoder(heroiDto.poder());
         heroi.setAfiliacao(heroiDto.afiliacao());
@@ -43,7 +42,7 @@ public class HeroiController {
 
     // Endpoint para buscar um herói por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Heroi> getHeroiById(@PathVariable UUID id) {
+    public ResponseEntity<Heroi> getHeroiById(@PathVariable int id) {
         Heroi heroi = heroiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Herói não encontrado com id: " + id));
         return new ResponseEntity<>(heroi, HttpStatus.OK);
@@ -51,7 +50,7 @@ public class HeroiController {
 
     // Endpoint para atualizar um herói
     @PutMapping("/{id}")
-    public ResponseEntity<Heroi> updateHeroi(@PathVariable UUID id, @RequestBody HeroiRecordDto heroiDto) {
+    public ResponseEntity<Heroi> updateHeroi(@PathVariable int id, @RequestBody HeroiRecordDto heroiDto) {
         Heroi heroi = heroiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Herói não encontrado com id: " + id));
 
@@ -65,7 +64,7 @@ public class HeroiController {
 
     // Endpoint para deletar um herói
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHeroi(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteHeroi(@PathVariable int id) {
         Heroi heroi = heroiRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Herói não encontrado com id: " + id));
 

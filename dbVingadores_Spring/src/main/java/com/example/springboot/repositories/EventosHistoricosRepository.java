@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface EventosHistoricosRepository extends JpaRepository<EventosHistoricos, UUID> {
+public interface EventosHistoricosRepository extends JpaRepository<EventosHistoricos, Integer> {
 }

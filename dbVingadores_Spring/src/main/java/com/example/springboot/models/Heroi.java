@@ -12,7 +12,7 @@ public class Heroi implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private int id;
     private String nome;
     private String codinome;
     private String afiliacao;
@@ -55,11 +55,11 @@ public class Heroi implements Serializable {
         this.localizacao = localizacao;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 

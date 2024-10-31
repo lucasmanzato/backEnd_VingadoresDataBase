@@ -22,7 +22,6 @@ public class BasesController {
     @PostMapping
     public ResponseEntity<Bases> createBase(@RequestBody BasesRecordDto baseDto) {
         Bases base = new Bases();
-        base.setBaseId(UUID.randomUUID());
         base.setNomeBase(baseDto.nomeBase());
         base.setLocalizacaoBase(baseDto.localizacaoBase());
         base.setPropositoBase(baseDto.propositoBase());
@@ -43,7 +42,7 @@ public class BasesController {
 
     // Endpoint para buscar uma base por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Bases> getBaseById(@PathVariable UUID id) {
+    public ResponseEntity<Bases> getBaseById(@PathVariable int id) {
         Bases base = basesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Base não encontrada com id: " + id));
         return new ResponseEntity<>(base, HttpStatus.OK);
@@ -51,7 +50,7 @@ public class BasesController {
 
     // Endpoint para atualizar uma base
     @PutMapping("/{id}")
-    public ResponseEntity<Bases> updateBase(@PathVariable UUID id, @RequestBody BasesRecordDto baseDto) {
+    public ResponseEntity<Bases> updateBase(@PathVariable int id, @RequestBody BasesRecordDto baseDto) {
         Bases base = basesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Base não encontrada com id: " + id));
 
@@ -68,7 +67,7 @@ public class BasesController {
 
     // Endpoint para deletar uma base
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBase(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteBase(@PathVariable int id) {
         Bases base = basesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Base não encontrada com id: " + id));
 

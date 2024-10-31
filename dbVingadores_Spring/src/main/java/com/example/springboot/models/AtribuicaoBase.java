@@ -12,7 +12,7 @@ public class AtribuicaoBase implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID atribuicaoId;
+    private int atribuicaoId;
 
     @ManyToOne
     @JoinColumn(name = "heroi_id", referencedColumnName = "id")
@@ -22,11 +22,11 @@ public class AtribuicaoBase implements Serializable {
     @JoinColumn(name = "base_id", referencedColumnName = "baseId")
     private Bases base;
 
-    public UUID getAtribuicaoId() {
+    public int getAtribuicaoId() {
         return atribuicaoId;
     }
 
-    public void setAtribuicaoId(UUID atribuicaoId) {
+    public void setAtribuicaoId(int atribuicaoId) {
         this.atribuicaoId = atribuicaoId;
     }
 

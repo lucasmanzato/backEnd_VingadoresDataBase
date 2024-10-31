@@ -3,22 +3,22 @@ package com.example.springboot.dtos;
 import java.util.UUID;
 
 public class AlocacaoRecursosDto {
-    private UUID baseId;
-    private UUID recursoId;
+    private int baseId;
+    private int recursoId;
 
-    public UUID getBaseId() {
+    public int getBaseId() {
         return baseId;
     }
 
-    public void setBaseId(UUID baseId) {
+    public void setBaseId(int baseId) {
         this.baseId = baseId;
     }
 
-    public UUID getRecursoId() {
+    public int getRecursoId() {
         return recursoId;
     }
 
-    public void setRecursoId(UUID recursoId) {
+    public void setRecursoId(int recursoId) {
         this.recursoId = recursoId;
     }
 }

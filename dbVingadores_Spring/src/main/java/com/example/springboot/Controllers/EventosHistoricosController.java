@@ -22,7 +22,7 @@ public class EventosHistoricosController {
     @PostMapping
     public ResponseEntity<EventosHistoricos> createEvento(@RequestBody EventosHistoricosRecordDto eventosDto) {
         EventosHistoricos evento = new EventosHistoricos();
-        evento.setEventosId(UUID.randomUUID());
+        ;
         evento.setNomeEventos(eventosDto.nomeEventos());
         evento.setDataEventos(eventosDto.dataEventos());
         evento.setLocalEventos(eventosDto.localEventos());
@@ -43,7 +43,7 @@ public class EventosHistoricosController {
 
     // Endpoint para buscar um evento histórico por ID
     @GetMapping("/{id}")
-    public ResponseEntity<EventosHistoricos> getEventoById(@PathVariable UUID id) {
+    public ResponseEntity<EventosHistoricos> getEventoById(@PathVariable int id) {
         EventosHistoricos evento = eventosHistoricosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento histórico não encontrado com id: " + id));
         return new ResponseEntity<>(evento, HttpStatus.OK);
@@ -51,7 +51,7 @@ public class EventosHistoricosController {
 
     // Endpoint para atualizar um evento histórico
     @PutMapping("/{id}")
-    public ResponseEntity<EventosHistoricos> updateEvento(@PathVariable UUID id, @RequestBody EventosHistoricosRecordDto eventosDto) {
+    public ResponseEntity<EventosHistoricos> updateEvento(@PathVariable int id, @RequestBody EventosHistoricosRecordDto eventosDto) {
         EventosHistoricos evento = eventosHistoricosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento histórico não encontrado com id: " + id));
 
@@ -68,7 +68,7 @@ public class EventosHistoricosController {
 
     // Endpoint para deletar um evento histórico
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvento(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteEvento(@PathVariable int id) {
         EventosHistoricos evento = eventosHistoricosRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Evento histórico não encontrado com id: " + id));
 

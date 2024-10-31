@@ -51,7 +51,7 @@ public class AlocacaoRecursosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletarAlocacao(@PathVariable UUID id) {
+    public ResponseEntity<Object> deletarAlocacao(@PathVariable int id) {
         Optional<AlocacaoRecursos> alocacaoOpt = alocacaoRecursosRepository.findById(id);
 
         if (alocacaoOpt.isEmpty()) {

@@ -22,7 +22,6 @@ public class RecursosController {
     @PostMapping
     public ResponseEntity<Recursos> createRecurso(@RequestBody RecursosRecordDto recursoDto) {
         Recursos recurso = new Recursos();
-        recurso.setRecursoId(UUID.randomUUID());
         recurso.setTipoRecurso(recursoDto.tipoRecurso());
         recurso.setNomeRecurso(recursoDto.nomeRecurso());
         recurso.setDisponibilidadeRecurso(recursoDto.disponibilidadeRecurso());
@@ -42,7 +41,7 @@ public class RecursosController {
 
     // Endpoint para buscar um recurso por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Recursos> getRecursoById(@PathVariable UUID id) {
+    public ResponseEntity<Recursos> getRecursoById(@PathVariable int id) {
         Recursos recurso = recursoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recurso não encontrado com id: " + id));
         return new ResponseEntity<>(recurso, HttpStatus.OK);
@@ -50,7 +49,7 @@ public class RecursosController {
 
     // Endpoint para atualizar um recurso
     @PutMapping("/{id}")
-    public ResponseEntity<Recursos> updateRecurso(@PathVariable UUID id, @RequestBody RecursosRecordDto recursoDto) {
+    public ResponseEntity<Recursos> updateRecurso(@PathVariable int id, @RequestBody RecursosRecordDto recursoDto) {
         Recursos recurso = recursoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recurso não encontrado com id: " + id));
 
@@ -66,7 +65,7 @@ public class RecursosController {
 
     // Endpoint para deletar um recurso
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRecurso(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteRecurso(@PathVariable int id) {
         Recursos recurso = recursoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recurso não encontrado com id: " + id));
 

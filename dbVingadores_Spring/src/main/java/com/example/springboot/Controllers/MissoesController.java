@@ -22,7 +22,6 @@ public class MissoesController {
     @PostMapping
     public ResponseEntity<Missoes> createMissao(@RequestBody MissoesRecordDto missoesDto) {
         Missoes missoes = new Missoes();
-        missoes.setMissoesId(UUID.randomUUID());
         missoes.setNomeMissoes(missoesDto.nomeMissoes());
         missoes.setDescricaoMissoes(missoesDto.descricaoMissoes());
         missoes.setDataInicioMissoes(missoesDto.dataInicioMissoes());
@@ -44,7 +43,7 @@ public class MissoesController {
 
     // Endpoint para buscar uma missão por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Missoes> getMissaoById(@PathVariable UUID id) {
+    public ResponseEntity<Missoes> getMissaoById(@PathVariable int id) {
         Missoes missoes = missoesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Missão não encontrada com id: " + id));
         return new ResponseEntity<>(missoes, HttpStatus.OK);
@@ -52,7 +51,7 @@ public class MissoesController {
 
     // Endpoint para atualizar uma missão
     @PutMapping("/{id}")
-    public ResponseEntity<Missoes> updateMissao(@PathVariable UUID id, @RequestBody MissoesRecordDto missoesDto) {
+    public ResponseEntity<Missoes> updateMissao(@PathVariable int id, @RequestBody MissoesRecordDto missoesDto) {
         Missoes missoes = missoesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Missão não encontrada com id: " + id));
 
@@ -70,7 +69,7 @@ public class MissoesController {
 
     // Endpoint para deletar uma missão
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMissao(@PathVariable UUID id) {
+    public ResponseEntity<Void> deleteMissao(@PathVariable int id) {
         Missoes missoes = missoesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Missão não encontrada com id: " + id));
 

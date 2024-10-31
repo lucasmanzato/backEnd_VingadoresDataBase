@@ -11,7 +11,7 @@ public class AlocacaoRecursos implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID alocacaoId;
+    private int alocacaoId;
 
     @ManyToOne
     @JoinColumn(name = "base_id")
@@ -21,11 +21,11 @@ public class AlocacaoRecursos implements Serializable {
     @JoinColumn(name = "recurso_id")
     private Recursos recurso;
 
-    public UUID getAlocacaoId() {
+    public int getAlocacaoId() {
         return alocacaoId;
     }
 
-    public void setAlocacaoId(UUID alocacaoId) {
+    public void setAlocacaoId(int alocacaoId) {
         this.alocacaoId = alocacaoId;
     }
 

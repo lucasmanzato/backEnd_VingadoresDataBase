@@ -11,7 +11,7 @@ public class ParticipacaoHerois implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID participacaoId;
+    private int participacaoId;
 
     @ManyToOne
     @JoinColumn(name = "heroi_id")
@@ -21,11 +21,11 @@ public class ParticipacaoHerois implements Serializable {
     @JoinColumn(name = "missao_id")
     private Missoes missao;
 
-    public UUID getParticipacaoId() {
+    public int getParticipacaoId() {
         return participacaoId;
     }
 
-    public void setParticipacaoId(UUID participacaoId) {
+    public void setParticipacaoId(int participacaoId) {
         this.participacaoId = participacaoId;
     }
 

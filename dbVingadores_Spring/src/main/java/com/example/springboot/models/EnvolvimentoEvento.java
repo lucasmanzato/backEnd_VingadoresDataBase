@@ -11,7 +11,7 @@ public class EnvolvimentoEvento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID envolvimentoEventoId;
+    private int envolvimentoEventoId;
 
     @ManyToOne
     @JoinColumn(name = "vilao_id")
@@ -21,11 +21,11 @@ public class EnvolvimentoEvento implements Serializable {
     @JoinColumn(name = "evento_id")
     private EventosHistoricos evento;
 
-    public UUID getEnvolvimentoEventoId() {
+    public int getEnvolvimentoEventoId() {
         return envolvimentoEventoId;
     }
 
-    public void setEnvolvimentoEventoId(UUID envolvimentoEventoId) {
+    public void setEnvolvimentoEventoId(int envolvimentoEventoId) {
         this.envolvimentoEventoId = envolvimentoEventoId;
     }
 
