@@ -1,6 +1,7 @@
 package com.example.springboot.Controllers;
 
 import com.example.springboot.dtos.MissoesRecordDto;
+import com.example.springboot.models.MissaoService;
 import com.example.springboot.models.Missoes;
 import com.example.springboot.repositories.MissoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,5 +76,31 @@ public class MissoesController {
 
         missoesRepository.delete(missoes);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @Autowired
+    private MissaoService missaoService;
+
+    // Endpoint para finalizar a missão
+    @PostMapping("/finalizar")
+    public String finalizarMissao(@RequestParam int missaoId) {
+        missaoService.finalizarMissao(missaoId);
+        return "Missão finalizada e recursos recuperados.";
+    }
+
+    // Endpoint para obter detalhes das missões
+    @GetMapping("/detalhes")
+    public List<Object[]> obterDetalhesMissoes() {
+        return missaoService.obterDetalhesMissoes();
+    }
+    // Novo Endpoint para desativar base e realocar recursos
+    @PostMapping("/desativar-e-realocar")
+    public String desativarERealocar() {
+        try {
+            missaoService.desativarBaseERealocar(); // Chama o método de transação no serviço
+            return "Base desativada e recursos realocados com sucesso!";
+        } catch (Exception e) {
+            return "Erro ao desativar a base e realocar recursos: " + e.getMessage();
+        }
     }
 }

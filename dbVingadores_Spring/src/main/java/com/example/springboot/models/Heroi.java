@@ -3,7 +3,7 @@ package com.example.springboot.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.UUID; 
 
 @Entity
 @Table(name = "heroi")

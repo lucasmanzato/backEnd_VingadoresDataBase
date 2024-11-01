@@ -60,8 +60,9 @@ public class SecurityConfig {
         http
                 .cors() // Habilita o CORS
                 .and()
-                .csrf().disable()
+                .csrf().disable() // Desativa o CSRF, necessário se não estiver usando tokens
                 .authorizeHttpRequests(authorize -> authorize
+                        // Permitir requisições anônimas para os endpoints que o frontend precisa
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/entrar", "/entrar/**").permitAll()
                         .requestMatchers("/herois", "/herois/**").permitAll()
@@ -70,21 +71,26 @@ public class SecurityConfig {
                         .requestMatchers("/api/envolvimento-evento", "/api/envolvimento-evento/**").permitAll()
                         .requestMatchers("/api/envolvimento-vilao", "/api/envolvimento-vilao/**").permitAll()
                         .requestMatchers("/eventosHistoricos", "/eventosHistoricos/**").permitAll()
-                        .requestMatchers("/missoes", "/missoes/**").permitAll()
+                        .requestMatchers("/missoes", "/missoes/**").permitAll() // Certifique-se de que "/missoes/**" está permitido
                         .requestMatchers("/api/participacao-evento", "/api/participacao-evento/**").permitAll()
                         .requestMatchers("/api/participacao-herois", "/api/participacao-herois/**").permitAll()
                         .requestMatchers("/recursos", "/recursos/**").permitAll()
                         .requestMatchers("/api/utilizacao-recursos", "/api/utilizacao-recursos/**").permitAll()
                         .requestMatchers("/viloes", "/viloes/**").permitAll()
 
-
+                        // Restringe o acesso a URLs administrativas apenas para usuários com o papel ADMIN
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                        // Permite acesso a URLs de usuário apenas para usuários com o papel USER
                         .requestMatchers("/user/**").hasRole("USER")
+
+                        // Exigir autenticação para qualquer outra URL
                         .anyRequest().authenticated()
                 );
 
         return http.build();
     }
+
 
     @Bean
     public CorsFilter corsFilter() {
