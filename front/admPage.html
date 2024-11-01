@@ -17,7 +17,7 @@
             <div class="select-box">
                 <h2>Selecione uma Tabela</h2>
                 <label for="table-select">Escolha uma Tabela:</label>
-                <select id="table-select" class="table-select" onchange="fetchData()">
+                <select id="table-select" class="table-select" onchange="handleTableSelectChange()">
                     <option value="">Escolha uma tabela</option>
                     <option value="alocacaoRecursos">Alocação Recursos</option>
                     <option value="atribuicaoBase">Atribuição Base</option>
@@ -38,12 +38,15 @@
         
             <!-- Tabela dinâmica de dados -->
             <div id="data-table-container"></div>
+
+            
         </div>
 
     <footer>
         <p>&copy; 2024 Vingadores. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js"></script> 
+    <script src="table.js"></script>
 </body>
 </html>

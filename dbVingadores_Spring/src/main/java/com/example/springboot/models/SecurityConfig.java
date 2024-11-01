@@ -66,7 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/entrar", "/entrar/**").permitAll()
                         .requestMatchers("/herois", "/herois/**").permitAll()
                         .requestMatchers("/api/alocacao-recursos", "/api/alocacao-recursos/**").permitAll()
-                        .requestMatchers("/atribuicoes", "/atribuicoes/**").permitAll()
+                        .requestMatchers("/atribuicaoBase", "/atribuicaoBase/**").permitAll()
                         .requestMatchers("/api/envolvimento-evento", "/api/envolvimento-evento/**").permitAll()
                         .requestMatchers("/api/envolvimento-vilao", "/api/envolvimento-vilao/**").permitAll()
                         .requestMatchers("/eventosHistoricos", "/eventosHistoricos/**").permitAll()
