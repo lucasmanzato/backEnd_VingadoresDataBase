@@ -1457,33 +1457,36 @@ async function deleteHero(heroId) {
     }
 }
 
-function exibirFormularioEdicaoHeroi(hero) {
+// Função para exibir o formulário de herói, usado para inserção e edição
+function exibirFormularioHeroi(hero = null) {
     const dataTableContainer = document.getElementById("data-table-container");
 
     // Remove formulário existente, se houver
-    const existingForm = document.getElementById("form-editar-heroi");
+    const existingForm = document.getElementById("form-heroi");
     if (existingForm) existingForm.remove();
 
-    // Cria o formulário de edição
+    // Cria o formulário
     const form = document.createElement("form");
-    form.id = "form-editar-heroi";
+    form.id = "form-heroi";
 
+    // Cria os campos do formulário e preenche com os valores do herói para edição
     ["Nome", "Codinome", "Afiliacao", "Status", "Localizacao", "Poder"].forEach(field => {
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = field;
         input.name = field.toLowerCase();
-        input.value = hero[field.toLowerCase()]; // Preenche com o valor atual
+        input.value = hero ? hero[field.toLowerCase()] : ""; // Preenche os valores se for edição
         form.appendChild(input);
     });
 
     const submitButton = document.createElement("button");
     submitButton.type = "button";
-    submitButton.textContent = "Salvar Alterações";
+    submitButton.textContent = hero ? "Salvar Alterações" : "Salvar"; // Altera o texto do botão conforme a ação
     form.appendChild(submitButton);
 
+    // Define o comportamento do botão para inserir ou atualizar
     submitButton.addEventListener("click", async function () {
-        const updatedHeroData = {
+        const heroData = {
             nome: form.querySelector("[name=nome]").value,
             codinome: form.querySelector("[name=codinome]").value,
             afiliacao: form.querySelector("[name=afiliacao]").value,
@@ -1493,22 +1496,35 @@ function exibirFormularioEdicaoHeroi(hero) {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/herois/${hero.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(updatedHeroData),
-            });
+            let response;
+            if (hero) {
+                // Atualiza o herói existente
+                response = await fetch(`http://localhost:8080/herois/${hero.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(heroData),
+                });
+            } else {
+                // Cria um novo herói
+                response = await fetch("http://localhost:8080/herois", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(heroData),
+                });
+            }
 
             if (response.ok) {
-                alert("Herói atualizado com sucesso!");
-                form.remove();
-                fetchAndDisplayHerois(); // Atualiza a tabela após a edição
+                alert(hero ? "Herói atualizado com sucesso!" : "Herói salvo com sucesso!");
+                form.reset();
+                fetchAndDisplayHerois(); // Atualiza a tabela após a inserção ou edição
             } else {
                 const errorText = await response.text();
-                console.error("Erro ao atualizar o herói:", errorText);
-                alert("Erro ao atualizar o herói. Verifique os dados e tente novamente.");
+                console.error("Erro ao salvar o herói:", errorText);
+                alert("Erro ao salvar o herói. Verifique os dados e tente novamente.");
             }
         } catch (error) {
             console.error("Erro ao enviar dados:", error);
@@ -1516,8 +1532,21 @@ function exibirFormularioEdicaoHeroi(hero) {
         }
     });
 
+    dataTableContainer.appendChild(form);
+}
+
+// Função para exibir o formulário com os dados preenchidos ao editar
+function exibirFormularioEdicaoHeroi(hero) {
+    exibirFormularioHeroi(hero);
+}
+
+// Exemplo de chamada para exibir o formulário de novo herói
+document.getElementById("botao-inserir-heroi").addEventListener("click", () => exibirFormularioHeroi());
+
+// Exemplo de chamada para exibir o formulário de edição de herói ao clicar no botão de edição
+// editButton.addEventListener("click", function () { exibirFormularioEdicaoHeroi(hero); });
 
 
 // Chamando a função ao clicar no botão de inserir
 document.getElementById("botao-inserir-heroi").addEventListener("click", exibirFormularioNovoHeroi);
-}
+

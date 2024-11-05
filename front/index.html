@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
     <link rel="stylesheet" href="styles.css">
-    
 </head>
 <body>
     <header>
-        <h1>Bem-vindo </h1>
+        <h1>Bem-vindo</h1>
     </header>
 
     <div class="login-container">
@@ -17,9 +16,9 @@
             <h2>Login Administrador</h2>
             <form id="admin-login-form">
                 <label for="adm-username">Usuário</label>
-                <input type="text" id="adm-username" name="username" required>
+                <input type="text" id="adm-username" name="username" autocomplete="username" required>
                 <label for="adm-password">Senha</label>
-                <input type="password" id="adm-password" name="password" required>
+                <input type="password" id="adm-password" name="password" autocomplete="current-password" required>
                 <button type="submit">Login</button>
             </form>
         </div>
@@ -28,9 +27,9 @@
             <h2>Login Visitante</h2>
             <form id="visitor-login-form">
                 <label for="visit-username">Usuário</label>
-                <input type="text" id="visit-username" name="username" required>
+                <input type="text" id="visit-username" name="username" autocomplete="username" required>
                 <label for="visit-password">Senha</label>
-                <input type="password" id="visit-password" name="password" required>
+                <input type="password" id="visit-password" name="password" autocomplete="current-password" required>
                 <button type="submit">Login</button>
             </form>
         </div>

@@ -51,11 +51,12 @@ footer {
 /* Container Principal da Página de Login */
 .login-container {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-around;
     margin: 20px auto;
     margin-top: 15%;
-    margin-right: 30%;
+    margin-right: 25%;
     width: 80%;
     max-width: 1000px;
 }
