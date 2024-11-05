@@ -1,41 +1,43 @@
-package com.example.springboot.Controllers;
+package com.example.springboot.controllers;
 
+import com.example.springboot.models.Usuario;
+import com.example.springboot.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/entrar")
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/entrar")
-    public String entrar() {
-        return "entrar";
+    @PostMapping("/admin")
+    public ResponseEntity<String> adminLogin(@RequestBody AuthRequest authRequest) {
+        Usuario usuario = usuarioRepository.findByUsername(authRequest.getUsername())
+                .orElse(null);
+
+        if (usuario != null && usuario.getPassword().equals(authRequest.getPassword()) && "ADMIN".equals(usuario.getRole())) {
+            return ResponseEntity.ok("Login de administrador bem-sucedido!");
+        } else {
+            return ResponseEntity.status(403).body("Acesso negado! Somente administradores podem acessar esta página.");
+        }
     }
 
-    @PostMapping("/entrar")
-    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
-        try {
-            // Realiza a autenticação
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            authRequest.getUsername(),
-                            authRequest.getPassword()
-                    )
-            );
-            return ResponseEntity.ok(authRequest.getUsername()+authRequest.getPassword()+" Login bem-sucedido!");
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Credenciais inválidas!");
+    @PostMapping("/visitor")
+    public ResponseEntity<String> visitorLogin(@RequestBody AuthRequest authRequest) {
+        Usuario usuario = usuarioRepository.findByUsername(authRequest.getUsername())
+                .orElse(null);
+
+        if (usuario != null && usuario.getPassword().equals(authRequest.getPassword()) && "USER".equals(usuario.getRole())) {
+            return ResponseEntity.ok("Login de visitante bem-sucedido!");
+        } else {
+            return ResponseEntity.status(403).body("Acesso negado! Somente visitantes podem acessar esta página.");
         }
     }
 }
 
-// Classe para encapsular a requisição de login
 class AuthRequest {
     private String username;
     private String password;
