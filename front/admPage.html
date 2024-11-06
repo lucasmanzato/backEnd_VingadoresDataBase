@@ -54,8 +54,26 @@
             <button onclick="finalizarMissao(5)">Finalizar Missão</button>
 
             <button onclick="desativarERealocar()">Desativar Base e Realocar Recursos</button>
-
-        
+            <div>
+                <label for="heroiIdSearch">Digite o ID do Herói para Buscar Fotos:</label>
+                <input type="number" id="heroiIdSearch" name="heroiIdSearch" required>
+                <button type="button" onclick="fetchHeroPhotos()">Buscar Fotos</button>
+            </div>
+            
+            <div id="hero-image-container">
+                <!-- As fotos do herói serão exibidas aqui -->
+            </div>
+            
+            <form id="uploadFotoForm" enctype="multipart/form-data">
+                <label for="heroiIdUpload">ID do Herói para Adicionar Foto:</label>
+                <input type="number" id="heroiIdUpload" name="heroiIdUpload" required>
+            
+                <label for="file">Selecione a Foto:</label>
+                <input type="file" id="file" name="file" accept="image/*" required>
+            
+                <button type="submit">Upload Foto</button>
+            </form>
+            
 
             
         </div>

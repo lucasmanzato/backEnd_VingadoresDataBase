@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f4f4f4;
 }
 
 /* Estilo do cabeçalho */
@@ -55,8 +56,7 @@ footer {
     align-items: center;
     justify-content: space-around;
     margin: 20px auto;
-    margin-top: 15%;
-    margin-right: 25%;
+    margin-top: 10%;
     width: 80%;
     max-width: 1000px;
 }
@@ -93,6 +93,8 @@ footer {
 
 .login-box label {
     margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
 .login-box input {
@@ -109,6 +111,7 @@ footer {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .login-box button:hover {
@@ -130,6 +133,8 @@ footer {
     font-size: 18px;
     margin-bottom: 10px;
     display: block;
+    font-weight: bold;
+    color: #333;
 }
 
 .table-select {
@@ -144,19 +149,110 @@ footer {
 }
 
 /* Estilo da Tabela de Dados */
+#data-table-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
 }
 
 th {
     background-color: #f2f2f2;
     font-weight: bold;
+    color: #333;
 }
+
+td {
+    color: #555;
+}
+
+/* Estilo para o botão de ações */
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #d8432e;
+    color: white;
+}
+
+/* Estilos específicos para as ações de upload e busca */
+#hero-image-container img {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#uploadFotoForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#uploadFotoForm label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+#uploadFotoForm input[type="file"],
+#uploadFotoForm input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+#uploadFotoForm button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#uploadFotoForm button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para a seção de Detalhes de Missões */
+#detalhes-missoes {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#detalhes-missoes h1 {
+    color: #333;
+    text-align: center;
+}
+

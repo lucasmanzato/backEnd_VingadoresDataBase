@@ -167,4 +167,73 @@ function finalizarMissao(missaoId) {
 
 
 
-  
+// Função para buscar e exibir as fotos do herói com base no ID digitado no campo de busca
+async function fetchHeroPhotos() {
+  const heroId = document.getElementById("heroiIdSearch").value;
+  const heroImageContainer = document.getElementById("hero-image-container");
+
+  if (!heroId) {
+      alert("Por favor, insira um ID de herói válido.");
+      return;
+  }
+
+  try {
+      const response = await fetch(`http://localhost:8080/fotos/heroi/${heroId}`);
+      const photos = await response.json();
+
+      // Limpa as imagens anteriores
+      heroImageContainer.innerHTML = '';
+
+      if (photos.length > 0) {
+          photos.forEach(photo => {
+              const img = document.createElement("img");
+              img.src = `data:image/jpeg;base64,${photo.imagemBase64}`; // Define o src com a imagem em Base64
+              img.style.width = "150px";
+              img.style.height = "150px";
+              img.style.margin = "5px";
+              heroImageContainer.appendChild(img);
+          });
+      } else {
+          heroImageContainer.innerHTML = "<p>Nenhuma foto encontrada para este herói.</p>";
+      }
+  } catch (error) {
+      console.error("Erro ao carregar fotos do herói:", error.message);
+      heroImageContainer.innerHTML = "<p>Erro ao carregar as fotos.</p>";
+  }
+}
+
+
+// Função para fazer o upload da foto para o herói com o ID fornecido no campo de upload
+async function uploadFoto(event) {
+  event.preventDefault();
+
+  const formData = new FormData(document.getElementById("uploadFotoForm"));
+  const heroId = document.getElementById("heroiIdUpload").value; // Reutiliza o ID do herói para o upload
+
+  if (!heroId) {
+      alert("Por favor, insira um ID de herói válido para o upload.");
+      return;
+  }
+
+  formData.append("heroiId", heroId); // Adiciona o ID do herói ao FormData
+
+  try {
+      const response = await fetch("http://localhost:8080/fotos/upload", {
+          method: "POST",
+          body: formData
+      });
+
+      if (response.ok) {
+          alert("Foto enviada com sucesso!");
+          document.getElementById("uploadFotoForm").reset(); // Limpa o formulário após o upload
+          fetchHeroPhotos(); // Atualiza a lista de fotos, caso você queira ver a nova foto na busca
+      } else {
+          alert("Erro ao enviar a foto.");
+      }
+  } catch (error) {
+      console.error("Erro ao enviar a foto:", error.message);
+  }
+}
+
+// Adiciona evento para o formulário de upload
+document.getElementById("uploadFotoForm").addEventListener("submit", uploadFoto);

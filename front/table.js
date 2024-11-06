@@ -325,12 +325,10 @@ async function fetchAndDisplayBases() {
     const dataTableContainer = document.getElementById("data-table-container");
     dataTableContainer.innerHTML = "";
 
-    // Cria o botão de Inserir no topo da tabela
+    // Cria o botão de inserção dentro da função
     const insertButton = document.createElement("button");
     insertButton.textContent = "Inserir Nova Base";
-    insertButton.addEventListener("click", function() {
-        alert("Abrir formulário de inserção de nova base"); // Substitua com a lógica de inserção
-    });
+    insertButton.addEventListener("click", exibirFormularioNovaBase);
     dataTableContainer.appendChild(insertButton);
 
     try {
@@ -369,54 +367,28 @@ async function fetchAndDisplayBases() {
         data.forEach(base => {
             const rowElement = document.createElement("tr");
 
-            const nomeTd = document.createElement("td");
-            nomeTd.textContent = base.nomeBase || "N/A";
-            rowElement.appendChild(nomeTd);
-
-            const localizacaoTd = document.createElement("td");
-            localizacaoTd.textContent = base.localizacaoBase || "N/A";
-            rowElement.appendChild(localizacaoTd);
-
-            const propositoTd = document.createElement("td");
-            propositoTd.textContent = base.propositoBase || "N/A";
-            rowElement.appendChild(propositoTd);
-
-            const capacidadeTd = document.createElement("td");
-            capacidadeTd.textContent = base.capacidadeBase || "N/A";
-            rowElement.appendChild(capacidadeTd);
-
-            const statusTd = document.createElement("td");
-            statusTd.textContent = base.statusBase || "N/A";
-            rowElement.appendChild(statusTd);
-
-            const comandanteTd = document.createElement("td");
-            comandanteTd.textContent = base.comandanteBase || "N/A";
-            rowElement.appendChild(comandanteTd);
+            ["nomeBase", "localizacaoBase", "propositoBase", "capacidadeBase", "statusBase", "comandanteBase"].forEach(key => {
+                const td = document.createElement("td");
+                td.textContent = base[key] || "N/A";
+                rowElement.appendChild(td);
+            });
 
             const actions = document.createElement("td");
+
+            // Botão de Edição
             const editButton = document.createElement("button");
             editButton.textContent = "Editar";
             editButton.addEventListener("click", function() {
-                alert("Editar base");
+                exibirFormularioEdicaoBase(base);
             });
             actions.appendChild(editButton);
 
+            // Botão de Exclusão
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Excluir";
             deleteButton.addEventListener("click", async function() {
-                try {
-                    const deleteResponse = await fetch(`http://localhost:8080/bases/${base.baseId}`, {
-                        method: "DELETE"
-                    });
-
-                    if (!deleteResponse.ok) {
-                        throw new Error("Erro ao excluir a base");
-                    }
-                    alert("Base excluída com sucesso");
-                    fetchAndDisplayBases(); // Atualiza a tabela após exclusão
-                } catch (error) {
-                    console.error("Erro ao excluir base:", error.message);
-                }
+                await deleteBase(base.baseId);
+                fetchAndDisplayBases();
             });
             actions.appendChild(deleteButton);
 
@@ -431,6 +403,69 @@ async function fetchAndDisplayBases() {
         dataTableContainer.innerHTML += `<p>Erro ao carregar dados: ${error.message}</p>`;
     }
 }
+
+// Função para exibir o formulário de nova base
+function exibirFormularioNovaBase() {
+    const dataTableContainer = document.getElementById("data-table-container");
+
+    // Remove o formulário existente antes de adicionar um novo
+    const existingForm = document.getElementById("form-nova-base");
+    if (existingForm) {
+        existingForm.remove();
+    }
+
+    const form = document.createElement("form");
+    form.id = "form-nova-base";
+
+    ["Nome Base", "Localização", "Propósito", "Capacidade", "Status", "Comandante"].forEach(field => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = field;
+        input.name = field.replace(" ", "").toLowerCase();
+        form.appendChild(input);
+    });
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "button";
+    submitButton.textContent = "Salvar";
+    submitButton.addEventListener("click", async function () {
+        const baseData = {
+            nomeBase: form.querySelector("[name=nomebase]").value,
+            localizacaoBase: form.querySelector("[name=localizacao]").value,
+            propositoBase: form.querySelector("[name=proposito]").value,
+            capacidadeBase: form.querySelector("[name=capacidade]").value,
+            statusBase: form.querySelector("[name=status]").value,
+            comandanteBase: form.querySelector("[name=comandante]").value
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/bases", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(baseData),
+            });
+
+            if (response.ok) {
+                alert("Base salva com sucesso!");
+                form.reset();
+                fetchAndDisplayBases();
+            } else {
+                alert("Erro ao salvar a base.");
+            }
+        } catch (error) {
+            alert("Erro ao conectar com o servidor.");
+        }
+    });
+
+    form.appendChild(submitButton);
+    dataTableContainer.appendChild(form);
+}
+
+// Chame a função para carregar a tabela e exibir o botão de inserção ao carregar a página
+fetchAndDisplayBases();
+
 
 
 async function fetchAndDisplayEnvolvimentoEvento() {
@@ -1540,6 +1575,8 @@ function exibirFormularioEdicaoHeroi(hero) {
     exibirFormularioHeroi(hero);
 }
 
+
+
 // Exemplo de chamada para exibir o formulário de novo herói
 document.getElementById("botao-inserir-heroi").addEventListener("click", () => exibirFormularioHeroi());
 
@@ -1550,3 +1587,152 @@ document.getElementById("botao-inserir-heroi").addEventListener("click", () => e
 // Chamando a função ao clicar no botão de inserir
 document.getElementById("botao-inserir-heroi").addEventListener("click", exibirFormularioNovoHeroi);
 
+// Função para exibir o formulário de nova base
+function exibirFormularioNovaBase() {
+    const dataTableContainer = document.getElementById("data-table-container");
+
+    // Verifica se o formulário já existe
+    if (document.getElementById("form-nova-base")) {
+        return;
+    }
+
+    const form = document.createElement("form");
+    form.id = "form-nova-base";
+
+    // Cria os campos do formulário
+    ["Nome Base", "Localização", "Propósito", "Capacidade", "Status", "Comandante"].forEach(field => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = field;
+        input.name = field.replace(" ", "").toLowerCase(); // Ajusta para o nome do campo no backend
+        form.appendChild(input);
+    });
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "button";
+    submitButton.textContent = "Salvar";
+    form.appendChild(submitButton);
+
+    submitButton.addEventListener("click", async function () {
+        const baseData = {
+            nomeBase: form.querySelector("[name=nomebase]").value,
+            localizacaoBase: form.querySelector("[name=localizacao]").value,
+            propositoBase: form.querySelector("[name=proposito]").value,
+            capacidadeBase: form.querySelector("[name=capacidade]").value,
+            statusBase: form.querySelector("[name=status]").value,
+            comandanteBase: form.querySelector("[name=comandante]").value
+        };
+
+        try {
+            const response = await fetch("http://localhost:8080/bases", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(baseData),
+            });
+
+            if (response.ok) {
+                alert("Base salva com sucesso!");
+                form.reset();
+                fetchAndDisplayBases(); // Atualiza a tabela após a inserção
+            } else {
+                const errorText = await response.text();
+                console.error("Erro ao salvar a base:", errorText);
+                alert("Erro ao salvar a base. Verifique os dados e tente novamente.");
+            }
+        } catch (error) {
+            console.error("Erro ao conectar com o servidor:", error.message);
+            alert("Erro ao conectar com o servidor.");
+        }
+    });
+
+    dataTableContainer.appendChild(form);
+}
+
+// Função para deletar uma base
+async function deleteBase(baseId) {
+    try {
+        const response = await fetch(`http://localhost:8080/bases/${baseId}`, {
+            method: "DELETE"
+        });
+        if (response.ok) {
+            alert("Base excluída com sucesso!");
+            fetchAndDisplayBases(); // Atualiza a tabela após a exclusão
+        } else {
+            alert("Erro ao excluir a base.");
+        }
+    } catch (error) {
+        console.error("Erro ao excluir base:", error.message);
+    }
+}
+
+// Função para exibir o formulário de edição de base
+function exibirFormularioEdicaoBase(base) {
+    const dataTableContainer = document.getElementById("data-table-container");
+
+    // Remove qualquer formulário de edição existente antes de criar um novo
+    if (document.getElementById("form-edicao-base")) {
+        document.getElementById("form-edicao-base").remove();
+    }
+
+    const form = document.createElement("form");
+    form.id = "form-edicao-base";
+
+    ["Nome Base", "Localização", "Propósito", "Capacidade", "Status", "Comandante"].forEach(field => {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = field;
+        input.name = field.replace(" ", "").toLowerCase();
+        input.value = base[input.name] || "";
+        form.appendChild(input);
+    });
+
+    const submitButton = document.createElement("button");
+    submitButton.type = "button";
+    submitButton.textContent = "Atualizar";
+    form.appendChild(submitButton);
+
+    submitButton.addEventListener("click", async function () {
+        const baseData = {
+            nomeBase: form.querySelector("[name=nomebase]").value,
+            localizacaoBase: form.querySelector("[name=localizacao]").value,
+            propositoBase: form.querySelector("[name=proposito]").value,
+            capacidadeBase: form.querySelector("[name=capacidade]").value,
+            statusBase: form.querySelector("[name=status]").value,
+            comandanteBase: form.querySelector("[name=comandante]").value
+        };
+
+        try {
+            const response = await fetch(`http://localhost:8080/bases/${base.baseId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(baseData),
+            });
+
+            if (response.ok) {
+                alert("Base atualizada com sucesso!");
+                fetchAndDisplayBases(); // Atualiza a tabela após a atualização
+            } else {
+                const errorText = await response.text();
+                console.error("Erro ao atualizar a base:", errorText);
+                alert("Erro ao atualizar a base. Verifique os dados e tente novamente.");
+            }
+        } catch (error) {
+            console.error("Erro ao conectar com o servidor:", error.message);
+            alert("Erro ao conectar com o servidor.");
+        }
+    });
+
+    dataTableContainer.appendChild(form);
+}
+
+// Chamada para exibir o formulário de nova base
+document.getElementById("botao-inserir-base").addEventListener("click", exibirFormularioNovaBase);
+
+// Exemplo de chamada para exibir o formulário de edição de base ao clicar no botão de edição
+// editButton.addEventListener("click", function () { exibirFormularioEdicaoBase(base); });
+
+document.getElementById("botao-inserir-base").addEventListener("click", exibirFormularioEdicaoBase);

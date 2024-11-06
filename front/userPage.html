@@ -17,23 +17,16 @@
             <div class="select-box">
                 <h2>Selecione uma Tabela</h2>
                 <label for="table-select">Escolha uma Tabela:</label>
-                <select id="table-select" class="table-select" onchange="handleTableSelectChange()">
+                <select id="table-select" class="table-select" onchange="loadUserTable()">
                     <option value="">Escolha uma tabela</option>
-                    <option value="alocacaoRecursos">Alocação Recursos</option>
-                    <option value="atribuicaoBase">Atribuição Base</option>
-                    <option value="bases">Bases</option>
-                    <option value="envolvimentoEvento">Envolvimento Evento</option>
-                    <option value="envolvimentoVilao">Envolvimento Vilão</option>
-                    <option value="eventosHistorico">Evento Histórico</option>
                     <option value="heroi">Herói</option>
+                    <option value="bases">Bases</option>
                     <option value="missoes">Missões</option>
-                    <option value="participacaoEventos">Participação Eventos</option>
-                    <option value="participacaoHerois">Participação Heróis</option>
-                    <option value="recursos">Recursos</option>
-                    <option value="utilizacaoRecursos">Utilização Recursos</option>
-                    <option value="viloes">Vilões</option>
-                    <option value="usuarios">Usuários</option>
+                    <option value="eventosHistoricos">Eventos Históricos</option>
+                    
+                    <!-- Adicione as demais opções conforme necessário -->
                 </select>
+                
             </div>
         
             <!-- Tabela dinâmica de dados -->
@@ -54,6 +47,7 @@
     </footer>
 
     <script src="script.js"></script> 
-    <script src="table.js"></script>
+    <script src="userTable.js"></script>
+
 </body>
 </html>

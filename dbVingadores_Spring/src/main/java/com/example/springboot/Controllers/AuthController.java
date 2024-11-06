@@ -33,7 +33,7 @@ public class AuthController {
         if (usuario != null && usuario.getPassword().equals(authRequest.getPassword()) && "USER".equals(usuario.getRole())) {
             return ResponseEntity.ok("Login de visitante bem-sucedido!");
         } else {
-            return ResponseEntity.status(403).body("Acesso negado! Somente visitantes podem acessar esta página.");
+            return ResponseEntity.status(403).body("Acesso negado! ");
         }
     }
 }
