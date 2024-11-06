@@ -72,17 +72,6 @@ function finalizarMissao(missaoId) {
   
   
   // Função para obter os detalhes das missões
-  function obterDetalhesMissoes() {
-    fetch('http://localhost:8080/missoes/detalhes')
-      .then(response => response.json())
-      .then(detalhesMissoes => {
-        console.log(detalhesMissoes); // Exibe os detalhes das missões no console
-        // Aqui você pode manipular os dados para exibir na página, se desejar
-      })
-      .catch(error => {
-        console.error('Erro ao obter detalhes das missões:', error);
-      });
-
       function obterDetalhesMissoes() {
         console.log("Função obterDetalhesMissoes chamada"); // Log para verificar o clique
       
@@ -162,8 +151,6 @@ function finalizarMissao(missaoId) {
           });
       }
       
-      
-  }
 
 
 
