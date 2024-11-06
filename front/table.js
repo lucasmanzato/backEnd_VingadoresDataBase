@@ -325,13 +325,16 @@ async function fetchAndDisplayBases() {
     const dataTableContainer = document.getElementById("data-table-container");
     dataTableContainer.innerHTML = "";
 
-    // Cria o botão de inserção dentro da função
-    const insertButton = document.createElement("button");
-    insertButton.textContent = "Inserir Nova Base";
-    insertButton.addEventListener("click", exibirFormularioNovaBase);
-    dataTableContainer.appendChild(insertButton);
-
     try {
+        // Verifica se o botão de inserção já existe para não duplicá-lo
+        if (!document.getElementById("insertButton")) {
+            const insertButton = document.createElement("button");
+            insertButton.textContent = "Inserir Nova Base";
+            insertButton.id = "insertButton"; // ID para evitar duplicação
+            insertButton.addEventListener("click", exibirFormularioNovaBase);
+            dataTableContainer.appendChild(insertButton);
+        }
+
         const response = await fetch("http://localhost:8080/bases");
 
         if (!response.ok) {
@@ -387,7 +390,7 @@ async function fetchAndDisplayBases() {
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "Excluir";
             deleteButton.addEventListener("click", async function() {
-                await deleteBase(base.baseId);
+                await deleteBase(base.baseId); // Certifique-se de que 'baseId' está correto
                 fetchAndDisplayBases();
             });
             actions.appendChild(deleteButton);
@@ -403,6 +406,7 @@ async function fetchAndDisplayBases() {
         dataTableContainer.innerHTML += `<p>Erro ao carregar dados: ${error.message}</p>`;
     }
 }
+
 
 // Função para exibir o formulário de nova base
 function exibirFormularioNovaBase() {
@@ -1599,12 +1603,21 @@ function exibirFormularioNovaBase() {
     const form = document.createElement("form");
     form.id = "form-nova-base";
 
-    // Cria os campos do formulário
-    ["Nome Base", "Localização", "Propósito", "Capacidade", "Status", "Comandante"].forEach(field => {
+    // Cria os campos do formulário com os nomes que o backend espera
+    const fields = [
+        { label: "Nome Base", name: "nomeBase" },
+        { label: "Localização", name: "localizacaoBase" },
+        { label: "Propósito", name: "propositoBase" },
+        { label: "Capacidade", name: "capacidadeBase" },
+        { label: "Status", name: "statusBase" },
+        { label: "Comandante", name: "comandanteBase" }
+    ];
+
+    fields.forEach(field => {
         const input = document.createElement("input");
         input.type = "text";
-        input.placeholder = field;
-        input.name = field.replace(" ", "").toLowerCase(); // Ajusta para o nome do campo no backend
+        input.placeholder = field.label;
+        input.name = field.name;
         form.appendChild(input);
     });
 
@@ -1614,14 +1627,16 @@ function exibirFormularioNovaBase() {
     form.appendChild(submitButton);
 
     submitButton.addEventListener("click", async function () {
-        const baseData = {
-            nomeBase: form.querySelector("[name=nomebase]").value,
-            localizacaoBase: form.querySelector("[name=localizacao]").value,
-            propositoBase: form.querySelector("[name=proposito]").value,
-            capacidadeBase: form.querySelector("[name=capacidade]").value,
-            statusBase: form.querySelector("[name=status]").value,
-            comandanteBase: form.querySelector("[name=comandante]").value
-        };
+        // Verifica a existência de cada campo antes de acessar o valor
+        const baseData = fields.reduce((data, field) => {
+            const inputElement = form.querySelector(`[name=${field.name}]`);
+            if (inputElement) {
+                data[field.name] = inputElement.value;
+            } else {
+                console.error(`Campo ${field.name} não encontrado no formulário.`);
+            }
+            return data;
+        }, {});
 
         try {
             const response = await fetch("http://localhost:8080/bases", {
@@ -1649,6 +1664,7 @@ function exibirFormularioNovaBase() {
 
     dataTableContainer.appendChild(form);
 }
+
 
 // Função para deletar uma base
 async function deleteBase(baseId) {
@@ -1679,12 +1695,22 @@ function exibirFormularioEdicaoBase(base) {
     const form = document.createElement("form");
     form.id = "form-edicao-base";
 
-    ["Nome Base", "Localização", "Propósito", "Capacidade", "Status", "Comandante"].forEach(field => {
+    // Cria os campos do formulário com os valores atuais da base para edição
+    const fields = [
+        { label: "Nome Base", name: "nomeBase" },
+        { label: "Localização", name: "localizacaoBase" },
+        { label: "Propósito", name: "propositoBase" },
+        { label: "Capacidade", name: "capacidadeBase" },
+        { label: "Status", name: "statusBase" },
+        { label: "Comandante", name: "comandanteBase" }
+    ];
+
+    fields.forEach(field => {
         const input = document.createElement("input");
         input.type = "text";
-        input.placeholder = field;
-        input.name = field.replace(" ", "").toLowerCase();
-        input.value = base[input.name] || "";
+        input.placeholder = field.label;
+        input.name = field.name;
+        input.value = base[field.name] || ""; // Preenche com o valor atual da base
         form.appendChild(input);
     });
 
@@ -1694,14 +1720,12 @@ function exibirFormularioEdicaoBase(base) {
     form.appendChild(submitButton);
 
     submitButton.addEventListener("click", async function () {
-        const baseData = {
-            nomeBase: form.querySelector("[name=nomebase]").value,
-            localizacaoBase: form.querySelector("[name=localizacao]").value,
-            propositoBase: form.querySelector("[name=proposito]").value,
-            capacidadeBase: form.querySelector("[name=capacidade]").value,
-            statusBase: form.querySelector("[name=status]").value,
-            comandanteBase: form.querySelector("[name=comandante]").value
-        };
+        // Coleta os dados atualizados do formulário
+        const baseData = fields.reduce((data, field) => {
+            const inputElement = form.querySelector(`[name=${field.name}]`);
+            data[field.name] = inputElement ? inputElement.value : "";
+            return data;
+        }, {});
 
         try {
             const response = await fetch(`http://localhost:8080/bases/${base.baseId}`, {
@@ -1728,6 +1752,7 @@ function exibirFormularioEdicaoBase(base) {
 
     dataTableContainer.appendChild(form);
 }
+
 
 // Chamada para exibir o formulário de nova base
 document.getElementById("botao-inserir-base").addEventListener("click", exibirFormularioNovaBase);

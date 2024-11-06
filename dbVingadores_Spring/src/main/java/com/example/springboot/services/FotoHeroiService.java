@@ -27,6 +27,7 @@ public class FotoHeroiService {
         return fotoHeroiRepository.save(fotoHeroi);
     }
 
+
     public void deletarFoto(Long id) {
         fotoHeroiRepository.deleteById(id);
     }

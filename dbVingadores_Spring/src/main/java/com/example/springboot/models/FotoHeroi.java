@@ -46,4 +46,5 @@ public class FotoHeroi {
     public String getImagemBase64() {
         return java.util.Base64.getEncoder().encodeToString(this.imagem);
     }
+
 }

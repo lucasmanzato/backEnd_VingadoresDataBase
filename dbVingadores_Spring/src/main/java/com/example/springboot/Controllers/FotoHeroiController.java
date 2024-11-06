@@ -33,8 +33,22 @@ public class FotoHeroiController {
         fotoHeroi.setHeroi(fotoHeroiService.getHeroiById(heroiId)); // Relaciona com o herói
         fotoHeroi.setImagem(file.getBytes()); // Salva a imagem como byte[] no banco
 
-        return fotoHeroiService.salvarFoto(fotoHeroi);
+        // Log para verificar se o upload está recebendo o ID e o arquivo corretamente
+        System.out.println("Upload de foto para o herói com ID: " + heroiId);
+        System.out.println("Tamanho da imagem recebida: " + file.getSize() + " bytes");
+
+        FotoHeroi savedFotoHeroi = fotoHeroiService.salvarFoto(fotoHeroi);
+
+        // Verificação se a foto foi salva com sucesso
+        if (savedFotoHeroi.getImagem() != null) {
+            System.out.println("Foto salva com sucesso para o herói ID: " + heroiId);
+        } else {
+            System.out.println("Erro ao salvar foto para o herói ID: " + heroiId);
+        }
+
+        return savedFotoHeroi;
     }
+
 
     // Endpoint para deletar uma foto específica
     @DeleteMapping("/{id}")

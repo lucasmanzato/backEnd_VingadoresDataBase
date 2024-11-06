@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/recursos", "/recursos/**").permitAll()
                         .requestMatchers("/api/utilizacao-recursos", "/api/utilizacao-recursos/**").permitAll()
                         .requestMatchers("/viloes", "/viloes/**").permitAll()
+                        .requestMatchers("/fotos", "/fotos/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .httpBasic().disable()  // Desabilita a autenticação básica
