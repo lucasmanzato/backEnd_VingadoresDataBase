@@ -1,0 +1,394 @@
+-- Table: public.alocacao_recursos
+
+-- DROP TABLE IF EXISTS public.alocacao_recursos;
+
+CREATE TABLE IF NOT EXISTS public.alocacao_recursos
+(
+    alocacao_id integer NOT NULL,
+    base_id integer,
+    recurso_id integer,
+    CONSTRAINT alocacao_recursos_pkey PRIMARY KEY (alocacao_id),
+    CONSTRAINT fkcd7au5rqipjiwcscblu435j1q FOREIGN KEY (recurso_id)
+        REFERENCES public.recursos (recurso_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkpk047srnrpqhxy6xq6ogabbye FOREIGN KEY (base_id)
+        REFERENCES public.bases (base_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.alocacao_recursos
+    OWNER to postgres;
+
+-- Trigger: triggerverificardisponibilidaderecurso
+
+-- DROP TRIGGER IF EXISTS triggerverificardisponibilidaderecurso ON public.alocacao_recursos;
+
+CREATE OR REPLACE TRIGGER triggerverificardisponibilidaderecurso
+    AFTER INSERT
+    ON public.alocacao_recursos
+    FOR EACH ROW
+    EXECUTE FUNCTION public.verificardisponibilidaderecurso();
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.atribuicao_base
+
+-- DROP TABLE IF EXISTS public.atribuicao_base;
+
+CREATE TABLE IF NOT EXISTS public.atribuicao_base
+(
+    atribuicao_id integer NOT NULL,
+    base_id integer,
+    heroi_id integer,
+    CONSTRAINT atribuicao_base_pkey PRIMARY KEY (atribuicao_id),
+    CONSTRAINT fkexmygfvbq6kctusojhkks1p65 FOREIGN KEY (heroi_id)
+        REFERENCES public.heroi (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fks5wqkydspssjh4bwx82qsw1d4 FOREIGN KEY (base_id)
+        REFERENCES public.bases (base_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.atribuicao_base
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.bases
+
+-- DROP TABLE IF EXISTS public.bases;
+
+CREATE TABLE IF NOT EXISTS public.bases
+(
+    base_id integer NOT NULL,
+    capacidade_base double precision NOT NULL,
+    comandante_base character varying(255) COLLATE pg_catalog."default",
+    localizacao_base character varying(255) COLLATE pg_catalog."default",
+    nome_base character varying(255) COLLATE pg_catalog."default",
+    proposito_base character varying(255) COLLATE pg_catalog."default",
+    status_base character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT bases_pkey PRIMARY KEY (base_id)
+
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.bases
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.envolvimento_evento
+
+-- DROP TABLE IF EXISTS public.envolvimento_evento;
+
+CREATE TABLE IF NOT EXISTS public.envolvimento_evento
+(
+    envolvimento_evento_id integer NOT NULL,
+    evento_id integer,
+    vilao_id integer,
+    CONSTRAINT envolvimento_evento_pkey PRIMARY KEY (envolvimento_evento_id),
+    CONSTRAINT fk23sy09fct09kx22ky89r9ljmg FOREIGN KEY (evento_id)
+        REFERENCES public.eventos_hitoricos (eventos_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkjc24knvcq8gt6r8ookaip8arg FOREIGN KEY (vilao_id)
+        REFERENCES public.viloes (viloes_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.envolvimento_evento
+    OWNER to postgres;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.envolvimento_vilao
+
+-- DROP TABLE IF EXISTS public.envolvimento_vilao;
+
+CREATE TABLE IF NOT EXISTS public.envolvimento_vilao
+(
+    envolvimento_id integer NOT NULL,
+    missao_id integer,
+    vilao_id integer,
+    CONSTRAINT envolvimento_vilao_pkey PRIMARY KEY (envolvimento_id),
+    CONSTRAINT fkbkp7628qpgnglv8crau2vwnt6 FOREIGN KEY (vilao_id)
+        REFERENCES public.viloes (viloes_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkdn82gwe7nm6egegal2v0kkyhh FOREIGN KEY (missao_id)
+        REFERENCES public.missoes (missoes_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.envolvimento_vilao
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.eventos_hitoricos
+
+-- DROP TABLE IF EXISTS public.eventos_hitoricos;
+
+CREATE TABLE IF NOT EXISTS public.eventos_hitoricos
+(
+    eventos_id integer NOT NULL,
+    data_eventos timestamp(6) without time zone,
+    impacto_eventos character varying(255) COLLATE pg_catalog."default",
+    local_eventos character varying(255) COLLATE pg_catalog."default",
+    nome_eventos character varying(255) COLLATE pg_catalog."default",
+    participantes_eventos character varying(255) COLLATE pg_catalog."default",
+    tipo_eventos character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT eventos_hitoricos_pkey PRIMARY KEY (eventos_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.eventos_hitoricos
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Table: public.foto_heroi
+
+-- DROP TABLE IF EXISTS public.foto_heroi;
+
+CREATE TABLE IF NOT EXISTS public.foto_heroi
+(
+    id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
+    imagem oid NOT NULL,
+    heroi_id integer,
+    CONSTRAINT foto_heroi_pkey PRIMARY KEY (id),
+    CONSTRAINT uklnyopave46d7fc8s5motc5jr UNIQUE (heroi_id),
+    CONSTRAINT fke9825fe9sfs0tulcrg2emxgod FOREIGN KEY (heroi_id)
+        REFERENCES public.heroi (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.foto_heroi
+    OWNER to postgres;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.heroi
+
+-- DROP TABLE IF EXISTS public.heroi;
+
+CREATE TABLE IF NOT EXISTS public.heroi
+(
+    id integer NOT NULL,
+    afiliacao character varying(255) COLLATE pg_catalog."default",
+    codinome character varying(255) COLLATE pg_catalog."default",
+    localizacao character varying(255) COLLATE pg_catalog."default",
+    nome character varying(255) COLLATE pg_catalog."default",
+    poder character varying(255) COLLATE pg_catalog."default",
+    status character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT heroi_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.heroi
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.missoes
+
+-- DROP TABLE IF EXISTS public.missoes;
+
+CREATE TABLE IF NOT EXISTS public.missoes
+(
+    missoes_id integer NOT NULL,
+    data_inicio_missoes timestamp(6) without time zone,
+    data_termino_missoes timestamp(6) without time zone,
+    descricao_missoes character varying(255) COLLATE pg_catalog."default",
+    herois_envolvido_missoes character varying(255) COLLATE pg_catalog."default",
+    nome_missoes character varying(255) COLLATE pg_catalog."default",
+    resultado_missoes character varying(255) COLLATE pg_catalog."default",
+    status_missoes character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT missoes_pkey PRIMARY KEY (missoes_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.missoes
+    OWNER to postgres;
+
+-- Trigger: trigger_update_status_villain
+
+-- DROP TRIGGER IF EXISTS trigger_update_status_villain ON public.missoes;
+
+CREATE OR REPLACE TRIGGER trigger_update_status_villain
+    AFTER UPDATE OF resultado_missoes
+    ON public.missoes
+    FOR EACH ROW
+    EXECUTE FUNCTION public.trigger_update_villain_status();
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Table: public.participacao_eventos
+
+-- DROP TABLE IF EXISTS public.participacao_eventos;
+
+CREATE TABLE IF NOT EXISTS public.participacao_eventos
+(
+    evento_id integer,
+    heroi_id integer,
+    participacao_evento_id integer NOT NULL,
+    vilao_id integer,
+    CONSTRAINT participacao_eventos_pkey PRIMARY KEY (participacao_evento_id),
+    CONSTRAINT fkcu4t1ugsy7v9f2sqtdw067dxu FOREIGN KEY (heroi_id)
+        REFERENCES public.heroi (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkgqilyj1tmbeg8t4vy34aycav1 FOREIGN KEY (vilao_id)
+        REFERENCES public.viloes (viloes_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkrk31x2snp4mn6c9lbhlcny6nq FOREIGN KEY (evento_id)
+        REFERENCES public.eventos_hitoricos (eventos_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.participacao_eventos
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.participacao_herois
+
+-- DROP TABLE IF EXISTS public.participacao_herois;
+
+CREATE TABLE IF NOT EXISTS public.participacao_herois
+(
+    heroi_id integer,
+    missao_id integer,
+    participacao_id integer NOT NULL,
+    CONSTRAINT participacao_herois_pkey PRIMARY KEY (participacao_id),
+    CONSTRAINT fkgtx060ufpl9jv01m54uyy7ovb FOREIGN KEY (missao_id)
+        REFERENCES public.missoes (missoes_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fks12j4c7hjgarulg54uqxf1ds2 FOREIGN KEY (heroi_id)
+        REFERENCES public.heroi (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.participacao_herois
+    OWNER to postgres;
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Table: public.recursos
+
+-- DROP TABLE IF EXISTS public.recursos;
+
+CREATE TABLE IF NOT EXISTS public.recursos
+(
+    recurso_id integer NOT NULL,
+    disponibilidade_recurso character varying(255) COLLATE pg_catalog."default",
+    localizacao_recurso character varying(255) COLLATE pg_catalog."default",
+    nome_recurso character varying(255) COLLATE pg_catalog."default",
+    tipo_recurso character varying(255) COLLATE pg_catalog."default",
+    usuario_recurso character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT recursos_pkey PRIMARY KEY (recurso_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.recursos
+    OWNER to postgres;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+-- Table: public.utilizacao_recursos
+
+-- DROP TABLE IF EXISTS public.utilizacao_recursos;
+
+CREATE TABLE IF NOT EXISTS public.utilizacao_recursos
+(
+    heroi_id integer,
+    recurso_id integer,
+    utilizacao_id integer NOT NULL,
+    CONSTRAINT utilizacao_recursos_pkey PRIMARY KEY (utilizacao_id),
+    CONSTRAINT fk2bk9joryybeis1851tqm8ursi FOREIGN KEY (heroi_id)
+        REFERENCES public.heroi (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkko2pc5qnux5l484mqm9etuohd FOREIGN KEY (recurso_id)
+        REFERENCES public.recursos (recurso_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.utilizacao_recursos
+    OWNER to postgres;
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Table: public.viloes
+
+-- DROP TABLE IF EXISTS public.viloes;
+
+CREATE TABLE IF NOT EXISTS public.viloes
+(
+    viloes_id integer NOT NULL,
+    localizacao_viloes character varying(255) COLLATE pg_catalog."default",
+    motivacao_viloes character varying(255) COLLATE pg_catalog."default",
+    nome_viloes character varying(255) COLLATE pg_catalog."default",
+    poderes_viloes character varying(255) COLLATE pg_catalog."default",
+    status_viloes character varying(255) COLLATE pg_catalog."default",
+    titulos_viloes character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT viloes_pkey PRIMARY KEY (viloes_id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.viloes
+    OWNER to postgres;
+
+-- Trigger: triggernotificarativacaovilao
+
+-- DROP TRIGGER IF EXISTS triggernotificarativacaovilao ON public.viloes;
+
+CREATE OR REPLACE TRIGGER triggernotificarativacaovilao
+    AFTER UPDATE OF status_viloes
+    ON public.viloes
+    FOR EACH ROW
+    WHEN (new.status_viloes::text = 'Ativo'::text)
+    EXECUTE FUNCTION public.notificarativacaovilao();
